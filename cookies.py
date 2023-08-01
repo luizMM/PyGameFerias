@@ -16,15 +16,15 @@ BLACK = (0, 0, 0)
 GRAY = (200, 200, 200)
 
 # Carregar imagens
-cookie_image = pygame.image.load('cookie.png').convert_alpha()
+cookie_image = pygame.image.load('imagens/cookie.png').convert_alpha()
 cookie_image_normal = pygame.transform.scale(cookie_image, (300, 289))
 cookie_image_large = pygame.transform.scale(cookie_image, (330, 319))
 cookie_image_start = pygame.transform.scale(cookie_image, (400, 400))
 
-background_image = pygame.image.load('background.png').convert()
+background_image = pygame.image.load('imagens/background.png').convert()
 background_image = pygame.transform.scale(background_image, (width, height))
 
-imagem_upgrade = pygame.image.load('upgrade.png').convert_alpha()
+imagem_upgrade = pygame.image.load('imagens/upgrade.png').convert_alpha()
 imagem_upgrade = pygame.transform.scale(imagem_upgrade, (30, 30))
 
 # Posição e tamanho do cookie
