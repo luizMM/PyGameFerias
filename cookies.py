@@ -27,29 +27,50 @@ background_image = pygame.transform.scale(background_image, (width, height))
 imagem_upgrade = pygame.image.load('imagens/upgrade.png').convert_alpha()
 imagem_upgrade = pygame.transform.scale(imagem_upgrade, (30, 30))
 
+aluno = pygame.image.load('imagens/aluno.png').convert_alpha()
+aluno = pygame.transform.scale(aluno, (100,100))
+
+fundo_aba = pygame.image.load('imagens/fundo_aba_upgrades.png').convert_alpha()
+fundo_aba = pygame.transform.scale(fundo_aba, (width+300, height))
+
+borda_botao = pygame.image.load('imagens/borda botao.png').convert_alpha()
+borda_botao = pygame.transform.scale(borda_botao, (250, 75))
+
+borda = pygame.image.load('imagens/borda2.png').convert_alpha()
+borda = pygame.transform.scale(borda, (width, 60))
+
+funcionario = pygame.image.load('imagens/funcionario.png').convert_alpha()
+funcionario = pygame.transform.scale(funcionario, (115,115))
+
 # Posição e tamanho do cookie
 cookie_rect = cookie_image_normal.get_rect(center=(width / 2, height / 4))
-cookinho_img = pygame.transform.scale(cookie_image, (30,29))
+cookinho_img = pygame.transform.scale(cookie_image, (30,30))
 cookinho_width = 30
 cookinho_height = 29
-icone_cookie = pygame.transform.scale(cookie_image, (20,20))
+icone_cookie = pygame.transform.scale(cookie_image, (25,25))
 
 # Fontes para o texto
 font_title = pygame.font.Font(None, 72)  # Fonte do título
 font = pygame.font.Font(None, 36)
-font_custo_upgrade = pygame.font.Font(None, 26)
+font_custo_upgrade = pygame.font.Font(None, 30)
+font_quant = pygame.font.Font(None, 80)
 
 # Contador de cliques e valor por clique
 click_count = 0
 value_per_click = 1
+funcionarios = 0
+alunos = 0
 
 # Custo de upgrade
 upgrade_cost = 10
+super_upgrade_cost = 100
 
 # Botão de upgrade
-upgrade_button = pygame.Rect(width - 165, 10, 155, 40)
-aba = pygame.Rect(0, height/2, width, height/2)
-borda = pygame.Rect(0, height/2, width, 25)
+upgrade_button = pygame.Rect(70, height/2 + 55, 250, 75)
+super_upgrade_button = pygame.Rect(450, height/2 + 55, 300, 75)
+
+#aba = pygame.Rect(0, height/2, width, height/2)
+#borda = pygame.Rect(0, height/2, width, 25)
 
 # Pulsar cookie
 pulse = False
@@ -84,7 +105,7 @@ class Cookie(pygame.sprite.Sprite):
             
 # Chuva de cookies
 all_cookies = pygame.sprite.Group()
-for i in range(20):
+for i in range(30):
     cookie = Cookie(cookinho_img)
     all_cookies.add(cookie)
 
@@ -127,6 +148,14 @@ while True:
                     value_per_click += 0.2
                     click_count -= upgrade_cost
                     upgrade_cost += 5
+                    alunos += 1
+                
+                # Checar se o clique foi no botão super upgrade
+                elif super_upgrade_button.collidepoint(event.pos) and click_count >= super_upgrade_cost:
+                    value_per_click += 2
+                    click_count -= super_upgrade_cost
+                    super_upgrade_cost += 100
+                    funcionarios += 1
 
         # Desenhar o cookie com pulsação
         if pulse:
@@ -140,19 +169,37 @@ while True:
         screen.blit(text, (330, 20))
         
         # Aba dos upgrades
-        pygame.draw.rect(screen, (1, 15, 20), aba)
-        pygame.draw.rect(screen, (19, 92, 112), borda)
+        #pygame.draw.rect(screen, (19, 92, 112), borda)
+
+        # Blit do da aba e fundo da aba upgrades
+        screen.blit(fundo_aba, (-140, height/2))
+        screen.blit(borda, (0, height/2 - 40))
 
         # Desenhar o botão de upgrade
         pygame.draw.rect(screen, (166, 159, 151), upgrade_button, border_radius=4)
-        text_upgrade = font.render(f'Upgrade', True, WHITE)
+        text_upgrade = font.render(f'Aluno', True, WHITE)
         custo_upgrade = font_custo_upgrade.render(f'{upgrade_cost}', True, WHITE)
+
+        pygame.draw.rect(screen, (166, 159, 151), super_upgrade_button, border_radius=4)
+        text_super_upgrade = font.render(f'Funcionario', True, WHITE)
+        custo_super_upgrade = font_custo_upgrade.render(f'{super_upgrade_cost}', True, WHITE)
+
+        n_alunos = font_quant.render(f'{alunos}', True, (84, 84, 84))
+        screen.blit(n_alunos, (260, height/2 + 55))
+        n_funcionarios = font_quant.render(f'{funcionarios}', True, (84, 84, 84))
+        screen.blit(n_funcionarios, (690, height/2 + 55))
         
         # Blit dos textos
-        screen.blit(text_upgrade, (width - 155, 20))
-        screen.blit(imagem_upgrade, (width - 50, 15))
-        screen.blit(custo_upgrade, (width - 135, 60))
-        screen.blit(icone_cookie, (width - 160, 58))
+        #screen.blit(borda_botao, (70, height/2 + 55))
+        screen.blit(text_upgrade, (160, height/2 + 68))
+        screen.blit(aluno, (65, height/2 + 40))
+        screen.blit(custo_upgrade, (70+120, height/2 + 100))
+        screen.blit(icone_cookie, (40+120, height/2 + 96))
+
+        screen.blit(text_super_upgrade, (525, height/2 + 68))
+        screen.blit(funcionario, (435, height/2 + 30))
+        screen.blit(custo_super_upgrade, (555, height/2 + 100))
+        screen.blit(icone_cookie, (525, height/2 + 96))
 
     pygame.display.flip()
 'Cookie eh bom, ninguem da'
