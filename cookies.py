@@ -1,6 +1,7 @@
 import pygame
 import sys
 import random
+import math
 
 # Inicialização do Pygame
 pygame.init()
@@ -42,6 +43,8 @@ borda = pygame.transform.scale(borda, (width, 60))
 funcionario = pygame.image.load('imagens/funcionario.png').convert_alpha()
 funcionario = pygame.transform.scale(funcionario, (115,115))
 
+building_display_background = pygame.image.load('imagens/building_display_background.png')
+
 # Posição e tamanho do cookie
 cookie_rect = cookie_image_normal.get_rect(center=(width / 2, height / 4))
 cookinho_img = pygame.transform.scale(cookie_image, (30,30))
@@ -66,7 +69,10 @@ upgrade_cost = 10
 super_upgrade_cost = 100
 
 # Botão de upgrade
-upgrade_button = pygame.Rect(70, height/2 + 55, 250, 75)
+upgrade_button_x = 70
+upgrade_button_y = height/2 + 55
+
+upgrade_button = pygame.Rect(upgrade_button_x, upgrade_button_y, 250, 75)
 super_upgrade_button = pygame.Rect(450, height/2 + 55, 300, 75)
 
 #aba = pygame.Rect(0, height/2, width, height/2)
@@ -109,9 +115,15 @@ for i in range(30):
     cookie = Cookie(cookinho_img)
     all_cookies.add(cookie)
 
+#caixa_aluno = CaixaLateral(upgrade_button, 'Aluno', 70, height/2 + 55, aluno, aluno, base_cost=10, increase_per_purchase=1.15, cps=0)
+#caixa_funcionario = CaixaLateral()
+
 # Loop principal do jogo
 while True:
     clock.tick(60)
+
+    mouse_x, mouse_y = pygame.mouse.get_pos()
+
     # Desenhar o fundo (mesmo para ambas as telas)
     screen.blit(background_image, (0, 0))
     
@@ -149,7 +161,7 @@ while True:
                     click_count -= upgrade_cost
                     upgrade_cost += 5
                     alunos += 1
-                
+
                 # Checar se o clique foi no botão super upgrade
                 elif super_upgrade_button.collidepoint(event.pos) and click_count >= super_upgrade_cost:
                     value_per_click += 2
@@ -200,6 +212,10 @@ while True:
         screen.blit(funcionario, (435, height/2 + 30))
         screen.blit(custo_super_upgrade, (555, height/2 + 100))
         screen.blit(icone_cookie, (525, height/2 + 96))
+
+        if mouse_x == upgrade_button.x or mouse_y == upgrade_button.y:
+            screen.blit(building_display_background, (mouse_x, mouse_y))
+        
 
     pygame.display.flip()
 'Cookie eh bom, ninguem da'
