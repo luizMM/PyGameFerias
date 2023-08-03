@@ -47,10 +47,17 @@ building_display_background = pygame.image.load('imagens/building_display_backgr
 
 # Posição e tamanho do cookie
 cookie_rect = cookie_image_normal.get_rect(center=(width / 2, height / 4))
+<<<<<<< HEAD
+cookinho_img = pygame.transform.scale(cookie_image, (30, 29))
+cookinho_width = 30
+cookinho_height = 29
+icone_cookie = pygame.transform.scale(cookie_image, (20, 20))
+=======
 cookinho_img = pygame.transform.scale(cookie_image, (30,30))
 cookinho_width = 30
 cookinho_height = 29
 icone_cookie = pygame.transform.scale(cookie_image, (25,25))
+>>>>>>> 466b892ebbd7b865b58a7b1d6676471e4f734e29
 
 # Fontes para o texto
 font_title = pygame.font.Font(None, 72)  # Fonte do título
@@ -65,6 +72,14 @@ funcionarios = 0
 alunos = 0
 
 # Custo de upgrade
+<<<<<<< HEAD
+upgrade_costs = [10, 20, 30, 40]
+
+# Botões de upgrade
+upgrade_buttons = [
+    pygame.Rect(width - 165, 10 + i * 60, 155, 40) for i in range(4)
+]
+=======
 upgrade_cost = 10
 super_upgrade_cost = 100
 
@@ -77,6 +92,7 @@ super_upgrade_button = pygame.Rect(450, height/2 + 55, 300, 75)
 
 #aba = pygame.Rect(0, height/2, width, height/2)
 #borda = pygame.Rect(0, height/2, width, 25)
+>>>>>>> 466b892ebbd7b865b58a7b1d6676471e4f734e29
 
 # Pulsar cookie
 pulse = False
@@ -89,26 +105,27 @@ clock = pygame.time.Clock()
 
 # Classe cookies
 class Cookie(pygame.sprite.Sprite):
-    def __init__(self,img):
+    def __init__(self, img):
         pygame.sprite.Sprite.__init__(self)
-        
+
         self.image = img
         self.rect = self.image.get_rect()
-        self.rect.x = random.randint(0, width-cookinho_width)
+        self.rect.x = random.randint(0, width - cookinho_width)
         self.rect.y = random.randint(-100, -cookinho_height)
         self.speedx = random.randint(-3, 3)
         self.speedy = random.randint(2, 4)
-    
+
     def update(self):
         self.rect.x += self.speedx
         self.rect.y += self.speedy
-        
+
         if self.rect.top > height or self.rect.right < 0 or self.rect.left > width:
-            self.rect.x = random.randint(0, width-cookinho_width)
+            self.rect.x = random.randint(0, width - cookinho_width)
             self.rect.y = random.randint(-100, -cookinho_height)
             self.speedx = random.randint(-3, 3)
             self.speedy = random.randint(2, 4)
-            
+
+
 # Chuva de cookies
 all_cookies = pygame.sprite.Group()
 for i in range(30):
@@ -126,7 +143,7 @@ while True:
 
     # Desenhar o fundo (mesmo para ambas as telas)
     screen.blit(background_image, (0, 0))
-    
+
     if state == "start_screen":
         # Tela inicial
         title_text = font_title.render("Cheney's Clicker", True, BLACK)
@@ -144,7 +161,7 @@ while True:
         # Jogo principal
         all_cookies.update()
         all_cookies.draw(screen)
-        
+
         # Processar eventos
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
@@ -155,6 +172,14 @@ while True:
                 if cookie_rect.collidepoint(event.pos):
                     click_count += value_per_click
                     pulse = True
+<<<<<<< HEAD
+                # Checar se o clique foi em um dos botões de upgrade
+                for i, upgrade_button in enumerate(upgrade_buttons):
+                    if upgrade_button.collidepoint(event.pos) and click_count >= upgrade_costs[i]:
+                        value_per_click += 0.2
+                        click_count -= upgrade_costs[i]
+                        upgrade_costs[i] += 5
+=======
                 # Checar se o clique foi no botão de upgrade
                 elif upgrade_button.collidepoint(event.pos) and click_count >= upgrade_cost:
                     value_per_click += 0.2
@@ -168,6 +193,7 @@ while True:
                     click_count -= super_upgrade_cost
                     super_upgrade_cost += 100
                     funcionarios += 1
+>>>>>>> 466b892ebbd7b865b58a7b1d6676471e4f734e29
 
         # Desenhar o cookie com pulsação
         if pulse:
@@ -179,8 +205,26 @@ while True:
         # Desenhar o texto com a contagem de cliques
         text = font.render(f'Cookies: {int(click_count)}', True, WHITE)
         screen.blit(text, (330, 20))
-        
+
         # Aba dos upgrades
+<<<<<<< HEAD
+        aba = pygame.Rect(0, height / 2, width, height / 2)
+        borda = pygame.Rect(0, height / 2, width, 25)
+        pygame.draw.rect(screen, (1, 15, 20), aba)
+        pygame.draw.rect(screen, (19, 92, 112), borda)
+
+        # Desenhar os botões de upgrade
+        for i, upgrade_button in enumerate(upgrade_buttons):
+            pygame.draw.rect(screen, (166, 159, 151), upgrade_button, border_radius=4)
+            text_upgrade = font.render(f'Upgrade', True, WHITE)
+            custo_upgrade = font_custo_upgrade.render(f'{upgrade_costs[i]}', True, WHITE)
+
+            # Blit dos textos
+            screen.blit(text_upgrade, (upgrade_button.x + 5, upgrade_button.y + 10))
+            screen.blit(imagem_upgrade, (upgrade_button.x + 110, upgrade_button.y + 5))
+            screen.blit(custo_upgrade, (upgrade_button.x - 25, upgrade_button.y + 40))
+            screen.blit(icone_cookie, (upgrade_button.x - 50, upgrade_button.y + 38))
+=======
         #pygame.draw.rect(screen, (19, 92, 112), borda)
 
         # Blit do da aba e fundo da aba upgrades
@@ -212,10 +256,10 @@ while True:
         screen.blit(funcionario, (435, height/2 + 30))
         screen.blit(custo_super_upgrade, (555, height/2 + 100))
         screen.blit(icone_cookie, (525, height/2 + 96))
+>>>>>>> 466b892ebbd7b865b58a7b1d6676471e4f734e29
 
         if mouse_x == upgrade_button.x or mouse_y == upgrade_button.y:
             screen.blit(building_display_background, (mouse_x, mouse_y))
         
 
     pygame.display.flip()
-'Cookie eh bom, ninguem da'
